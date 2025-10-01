@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - {{ site_settings.brand_name|default:"AI-Snakk" }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen pt-16 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Get in Touch</h1>
+            <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Have a question or want to get involved? We'd love to hear from you.
+            </p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.name != 'honeypot' %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            {{ field.label }}{% if field.field.required %} *{% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ field.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                {% endfor %}
+                
+                <div class="text-center">
+                    <button type="submit" 
+                            class="inline-flex items-center px-8 py-3 bg-ai-blue text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site_settings.brand_name|default:"AI-Snakk" }}{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}{{ site_settings.description|default:'AI-Snakk - Practical AI for Nordic business and tech. Talks, demos, and case studies connecting AI to industry.' }}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}AI, artificial intelligence, Nordic, business, technology, talks, case studies{% endblock %}">
+    <meta name="author" content="{{ site_settings.brand_name|default:'AI-Snakk' }}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}{{ site_settings.brand_name|default:'AI-Snakk' }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ site_settings.description|default:'AI-Snakk - Practical AI for Nordic business and tech.' }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% load static %}{% static 'images/ai-snakk-social.jpg' %}{% endblock %}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.build_absolute_uri }}">
+    <meta property="twitter:title" content="{% block twitter_title %}{{ site_settings.brand_name|default:'AI-Snakk' }}{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}{{ site_settings.description|default:'AI-Snakk - Practical AI for Nordic business and tech.' }}{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% load static %}{% static 'images/ai-snakk-social.jpg' %}{% endblock %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% load static %}{% static 'images/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% load static %}{% static 'images/apple-touch-icon.png' %}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'ai-blue': '#3B82F6',
+                        'ai-purple': '#8B5CF6',
+                        'ai-green': '#10B981',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translatey(0px)' },
+                            '50%': { transform: 'translatey(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #3B82F6, #8B5CF6, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .hero-bg-dark {
+            background: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
+        }
+    </style>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    {% if site_settings.analytics_id %}
+    <!-- Analytics -->
+    {% if 'GA_' in site_settings.analytics_id %}
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site_settings.analytics_id }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ site_settings.analytics_id }}');
+    </script>
+    {% else %}
+    <!-- Plausible Analytics -->
+    <script defer data-domain="{{ request.get_host }}" src="https://plausible.io/js/plausible.js"></script>
+    {% endif %}
+    {% endif %}
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-40 glass dark:glass-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="{% url 'core:home' %}" class="flex items-center space-x-2">
+                        {% if site_settings.logo_image %}
+                        <img src="{{ site_settings.logo_image.url }}" alt="{{ site_settings.brand_name }}" class="h-8 w-auto">
+                        {% else %}
+                        <div class="h-8 w-8 bg-gradient-to-br from-ai-blue to-ai-purple rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">AI</span>
+                        </div>
+                        {% endif %}
+                        <span class="font-bold text-xl gradient-text">{{ site_settings.brand_name|default:"AI-Snakk" }}</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{% url 'core:home' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-white/20 transition-colors">
+                            Home
+                        </a>
+                        <a href="{% url 'core:blog_list' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-white/20 transition-colors">
+                            Blog
+                        </a>
+                        <a href="{% url 'core:about' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-white/20 transition-colors">
+                            About
+                        </a>
+                        <a href="{% url 'core:events_list' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-white/20 transition-colors">
+                            Events
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:bg-white/20 transition-colors">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Dark mode toggle and mobile menu button -->
+                <div class="flex items-center space-x-2">
+                    <!-- Dark mode toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-md hover:bg-white/20 transition-colors">
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-md hover:bg-white/20 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="hidden md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="{% url 'core:home' %}" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-white/20 transition-colors">Home</a>
+                    <a href="{% url 'core:blog_list' %}" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-white/20 transition-colors">Blog</a>
+                    <a href="{% url 'core:about' %}" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-white/20 transition-colors">About</a>
+                    <a href="{% url 'core:events_list' %}" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-white/20 transition-colors">Events</a>
+                    <a href="{% url 'core:contact' %}" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-white/20 transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="pt-16 min-h-screen">
+        {% if messages %}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            {% for message in messages %}
+            <div class="mb-4 p-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 border border-green-400 text-green-700 dark:bg-green-900 dark:border-green-600 dark:text-green-100{% elif message.tags == 'error' %}bg-red-100 border border-red-400 text-red-700 dark:bg-red-900 dark:border-red-600 dark:text-red-100{% else %}bg-blue-100 border border-blue-400 text-blue-700 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-100{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 dark:bg-gray-800 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand Column -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        {% if site_settings.logo_image %}
+                        <img src="{{ site_settings.logo_image.url }}" alt="{{ site_settings.brand_name }}" class="h-8 w-auto">
+                        {% else %}
+                        <div class="h-8 w-8 bg-gradient-to-br from-ai-blue to-ai-purple rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">AI</span>
+                        </div>
+                        {% endif %}
+                        <span class="font-bold text-xl gradient-text">{{ site_settings.brand_name|default:"AI-Snakk" }}</span>
+                    </div>
+                    <p class="text-gray-300 mb-4 max-w-md">
+                        {{ site_settings.description|default:"AI-Snakk is a community for practical AI—talks, demos, and case studies for Nordic business and tech." }}
+                    </p>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-2">Stay Updated</h4>
+                        <form id="newsletter-form" class="flex">
+                            <input type="email" id="newsletter-email" placeholder="Enter your email" 
+                                   class="flex-1 px-4 py-2 border border-gray-600 rounded-l-lg bg-gray-800 text-white focus:ring-2 focus:ring-ai-blue focus:border-transparent">
+                            <button type="submit" class="px-6 py-2 bg-ai-blue hover:bg-blue-600 text-white rounded-r-lg transition-colors">
+                                Subscribe
+                            </button>
+                        </form>
+                        <div id="newsletter-message" class="mt-2 text-sm"></div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'core:home' %}" class="text-gray-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{% url 'core:blog_list' %}" class="text-gray-300 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="{% url 'core:about' %}" class="text-gray-300 hover:text-white transition-colors">About</a></li>
+                        <li><a href="{% url 'core:events_list' %}" class="text-gray-300 hover:text-white transition-colors">Events</a></li>
+                        <li><a href="{% url 'core:contact' %}" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="{% url 'blog_rss' %}" class="text-gray-300 hover:text-white transition-colors">RSS Feed</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        {% if site_settings.twitter_url %}
+                        <a href="{{ site_settings.twitter_url }}" target="_blank" rel="noopener noreferrer" 
+                           class="text-gray-300 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        {% if site_settings.linkedin_url %}
+                        <a href="{{ site_settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" 
+                           class="text-gray-300 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        {% if site_settings.github_url %}
+                        <a href="{{ site_settings.github_url }}" target="_blank" rel="noopener noreferrer" 
+                           class="text-gray-300 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% if site_settings.contact_email %}
+                    <div class="mt-4">
+                        <p class="text-gray-300 text-sm">Email: 
+                            <a href="mailto:{{ site_settings.contact_email }}" class="hover:text-white transition-colors">
+                                {{ site_settings.contact_email }}
+                            </a>
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300 text-sm">
+                    © {% now "Y" %} {{ site_settings.brand_name|default:"AI-Snakk" }}. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Check for saved theme preference or default to dark mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.classList.toggle('dark', currentTheme === 'dark');
+
+        // Show correct icon
+        if (currentTheme === 'dark') {
+            lightIcon.classList.remove('hidden');
+        } else {
+            darkIcon.classList.remove('hidden');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            
+            // Swap icons
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+            
+            // Save preference
+            const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Newsletter signup
+        const newsletterForm = document.getElementById('newsletter-form');
+        const newsletterMessage = document.getElementById('newsletter-message');
+
+        newsletterForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('newsletter-email').value;
+            
+            try {
+                const response = await fetch('{% url "core:newsletter_signup" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    newsletterMessage.innerHTML = '<span class="text-green-400">' + data.message + '</span>';
+                    document.getElementById('newsletter-email').value = '';
+                } else {
+                    newsletterMessage.innerHTML = '<span class="text-red-400">' + data.error + '</span>';
+                }
+            } catch (error) {
+                newsletterMessage.innerHTML = '<span class="text-red-400">An error occurred. Please try again.</span>';
+            }
+        });
+
+        // Active nav link highlighting
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('bg-white/20');
+            }
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ event.title }} - AI-Snakk{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Event Header -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-8 border border-white/20">
+            <div class="flex flex-col lg:flex-row gap-8">
+                {% if event.hero_image %}
+                <div class="lg:w-1/3">
+                    <img src="{{ event.hero_image.url }}" alt="{{ event.title }}" 
+                         class="w-full h-64 object-cover rounded-xl">
+                </div>
+                {% endif %}
+                
+                <div class="flex-1">
+                    <h1 class="text-4xl font-bold text-white mb-4">{{ event.title }}</h1>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-center text-blue-200">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>{{ event.local_start_time|date:"F j, Y" }} at {{ event.local_start_time|time:"g:i A" }}</span>
+                        </div>
+                        
+                        {% if event.location %}
+                        <div class="flex items-center text-blue-200">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>{{ event.location }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        {% if event.streaming_url %}
+                        <div class="flex items-center text-blue-200">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path>
+                            </svg>
+                            <a href="{{ event.streaming_url }}" class="hover:text-blue-300" target="_blank">Join Online</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="text-gray-300 text-lg mb-6">{{ event.short_description }}</p>
+                    
+                    {% if event.rsvp_url %}
+                    <a href="{{ event.rsvp_url }}" target="_blank" 
+                       class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+                        RSVP Now
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Event Description -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-8 border border-white/20">
+            <h2 class="text-2xl font-bold text-white mb-6">About This Event</h2>
+            <div class="prose prose-invert max-w-none">
+                {{ event.description|safe }}
+            </div>
+        </div>
+        
+        <!-- Related Presentations -->
+        {% if presentations %}
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+            <h2 class="text-2xl font-bold text-white mb-6">Presentations</h2>
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {% for presentation in presentations %}
+                <div class="bg-white/5 rounded-xl p-6 border border-white/10">
+                    <h3 class="text-lg font-semibold text-white mb-2">{{ presentation.title }}</h3>
+                    <p class="text-gray-300 text-sm mb-3">by {{ presentation.speaker }}</p>
+                    <p class="text-gray-400 text-sm mb-4">{{ presentation.summary|truncatewords:20 }}</p>
+                    <a href="{{ presentation.get_absolute_url }}" 
+                       class="text-blue-400 hover:text-blue-300 text-sm font-medium">
+                        View Presentation →
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

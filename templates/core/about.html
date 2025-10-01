@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}About - {{ site_settings.brand_name|default:"AI-Snakk" }}{% endblock %}
+
+{% block content %}
+<div class="pt-16 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">About AI-Snakk</h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                We bridge the gap between AI theory and real-world implementation
+            </p>
+        </div>
+        
+        <div class="prose prose-lg max-w-4xl mx-auto dark:prose-invert">
+            <p class="text-xl leading-relaxed">
+                AI-Snakk is a community for practical AI—talks, demos, and case studies for Nordic business and tech.
+                We bring together professionals, researchers, and innovators to share knowledge and experiences.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
