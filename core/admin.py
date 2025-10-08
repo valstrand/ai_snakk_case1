@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
+from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import (
     SiteSettings,
     Post,
@@ -85,6 +86,11 @@ class PostAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).select_related("author")
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields["body"].widget = CKEditor5Widget(config_name="default")
+        return form
+
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
@@ -136,6 +142,11 @@ class EventAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("tags")
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields["description"].widget = CKEditor5Widget(config_name="default")
+        return form
+
 
 @admin.register(CaseStudy)
 class CaseStudyAdmin(admin.ModelAdmin):
@@ -177,6 +188,11 @@ class CaseStudyAdmin(admin.ModelAdmin):
         ("SEO", {"fields": ("seo_title", "seo_description"), "classes": ("collapse",)}),
     )
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields["body"].widget = CKEditor5Widget(config_name="default")
+        return form
+
 
 @admin.register(Presentation)
 class PresentationAdmin(admin.ModelAdmin):
@@ -210,6 +226,11 @@ class PresentationAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related("event")
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields["body"].widget = CKEditor5Widget(config_name="default")
+        return form
 
 
 @admin.register(ContactSubmission)

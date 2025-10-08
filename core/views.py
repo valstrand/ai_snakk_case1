@@ -231,7 +231,7 @@ def contact_view(request):
             contact.save()
 
             messages.success(
-                request, "Thank you for your message! We will get back to you soon."
+                request, "Takk for din melding! Vi kommer tilbake til deg snart."
             )
             return redirect("core:contact")
     else:
@@ -265,21 +265,21 @@ def newsletter_signup_view(request):
                 return JsonResponse(
                     {
                         "success": True,
-                        "message": "Thank you for subscribing to our newsletter!",
+                        "message": "Takk for at du abonnerte på vårt nyhetsbrev!",
                     }
                 )
             else:
                 return JsonResponse(
                     {
                         "success": False,
-                        "error": "You are already subscribed to our newsletter.",
+                        "error": "Du er allerede abonnert på vårt nyhetsbrev.",
                     }
                 )
 
         except json.JSONDecodeError:
-            return JsonResponse({"success": False, "error": "Invalid request"})
+            return JsonResponse({"success": False, "error": "Ugyldig forespørsel"})
 
-    return JsonResponse({"success": False, "error": "Invalid request method"})
+    return JsonResponse({"success": False, "error": "Ugyldig forespørsel"})
 
 
 def case_study_detail_view(request, slug):
@@ -387,6 +387,9 @@ class PostSitemap(Sitemap):
     def location(self, obj):
         return obj.get_absolute_url()
 
+    def priority(self, obj):
+        return 0.9 if obj.featured else 0.8
+
 
 class EventSitemap(Sitemap):
     changefreq = "weekly"
@@ -400,6 +403,44 @@ class EventSitemap(Sitemap):
 
     def location(self, obj):
         return obj.get_absolute_url()
+
+
+class CaseStudySitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.7
+
+    def items(self):
+        return CaseStudy.objects.filter(
+            is_published=True, publish_at__lte=timezone.now()
+        )
+
+    def lastmod(self, obj):
+        return obj.updated_at
+
+    def location(self, obj):
+        return obj.get_absolute_url()
+
+    def priority(self, obj):
+        return 0.8 if obj.featured else 0.7
+
+
+class PresentationSitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.6
+
+    def items(self):
+        return Presentation.objects.filter(
+            is_published=True, publish_at__lte=timezone.now()
+        )
+
+    def lastmod(self, obj):
+        return obj.updated_at
+
+    def location(self, obj):
+        return obj.get_absolute_url()
+
+    def priority(self, obj):
+        return 0.7 if obj.featured else 0.6
 
 
 class StaticSitemap(Sitemap):

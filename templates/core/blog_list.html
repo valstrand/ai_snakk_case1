@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Blog - {{ site_settings.brand_name|default:"AI-Snakk" }}{% endblock %}
+{% block title %}Blogg - {{ site_settings.brand_name|default:"AI-Snakk" }}{% endblock %}
 
 {% block content %}
 <div class="pt-16 bg-white dark:bg-gray-900 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Blog</h1>
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Blogg</h1>
             <p class="text-xl text-gray-600 dark:text-gray-300">
-                Latest insights on practical AI implementation
+                Siste innsikter om praktisk AI-implementering
             </p>
         </div>
         
@@ -24,7 +24,7 @@
                         </h2>
                         <p class="text-gray-600 dark:text-gray-300 mb-4">{{ post.summary }}</p>
                         <div class="text-sm text-gray-500 dark:text-gray-400">
-                            {{ post.publish_at|date:"M j, Y" }} • {{ post.reading_time }} min read
+                            {{ post.publish_at|date:"j. M Y" }} • {{ post.reading_time }} min lesetid
                         </div>
                     </div>
                 </article>
@@ -32,7 +32,7 @@
             </div>
         {% else %}
             <div class="text-center py-12">
-                <p class="text-gray-600 dark:text-gray-300">No blog posts yet. Check back soon!</p>
+                <p class="text-gray-600 dark:text-gray-300">Ingen blogginnlegg ennå. Sjekk tilbake snart!</p>
             </div>
         {% endif %}
     </div>

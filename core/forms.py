@@ -10,8 +10,8 @@ class ContactForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Your name",
-                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
+                "placeholder": "Ditt navn",
+                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
             }
         ),
     )
@@ -19,8 +19,8 @@ class ContactForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                "placeholder": "your.email@example.com",
-                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
+                "placeholder": "din.epost@example.com",
+                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
             }
         )
     )
@@ -30,8 +30,8 @@ class ContactForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Subject (optional)",
-                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
+                "placeholder": "Emne (valgfritt)",
+                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
             }
         ),
     )
@@ -39,9 +39,9 @@ class ContactForm(forms.Form):
     message = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "placeholder": "Your message...",
+                "placeholder": "Din melding...",
                 "rows": 5,
-                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
+                "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
             }
         )
     )
@@ -66,8 +66,8 @@ class NewsletterForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                "placeholder": "Enter your email",
-                "class": "flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
+                "placeholder": "Skriv inn din e-post",
+                "class": "flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white",
             }
         )
     )

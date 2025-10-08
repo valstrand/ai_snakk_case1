@@ -8,13 +8,13 @@
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Events</h1>
             <p class="text-xl text-gray-600 dark:text-gray-300">
-                Join us for AI-focused events and discussions
+                Bli med på AI-fokuserte events og diskusjoner
             </p>
         </div>
         
         {% if upcoming_events %}
             <section class="mb-16">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Upcoming Events</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Kommende events</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {% for event in upcoming_events %}
                     <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
@@ -38,7 +38,7 @@
         
         {% if past_events %}
             <section>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Past Events</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">Tidligere events</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {% for event in past_events %}
                     <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden opacity-75">
@@ -60,7 +60,7 @@
         
         {% if not upcoming_events and not past_events %}
             <div class="text-center py-12">
-                <p class="text-gray-600 dark:text-gray-300">No events scheduled yet. Check back soon!</p>
+                <p class="text-gray-600 dark:text-gray-300">Ingen events planlagt ennå. Sjekk tilbake snart!</p>
             </div>
         {% endif %}
     </div>

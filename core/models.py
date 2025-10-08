@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 from taggit.managers import TaggableManager
 import pytz
 
@@ -102,7 +102,7 @@ class Post(TimeStampedModel, SEOModel, PublishableModel):
     summary = models.TextField(
         max_length=300, help_text="Brief description of the post"
     )
-    body = RichTextField()
+    body = CKEditor5Field("default")
     cover_image = models.ImageField(upload_to="posts/", blank=True, null=True)
     tags = TaggableManager(blank=True)
     featured = models.BooleanField(
@@ -158,7 +158,7 @@ class Event(TimeStampedModel, SEOModel, PublishableModel):
     short_description = models.TextField(
         max_length=300, help_text="Brief description for listings"
     )
-    description = RichTextField(help_text="Full event description")
+    description = CKEditor5Field("default", help_text="Full event description")
     hero_image = models.ImageField(upload_to="events/", blank=True, null=True)
     is_featured = models.BooleanField(
         default=False, help_text="Mark as featured/next event (only one allowed)"
@@ -233,7 +233,7 @@ class CaseStudy(TimeStampedModel, SEOModel, PublishableModel):
     summary = models.TextField(
         max_length=300, help_text="Brief description of the case study"
     )
-    body = RichTextField()
+    body = CKEditor5Field("default")
     cover_image = models.ImageField(upload_to="cases/", blank=True, null=True)
     tags = TaggableManager(blank=True)
     featured = models.BooleanField(
@@ -289,7 +289,9 @@ class Presentation(TimeStampedModel, SEOModel, PublishableModel):
     summary = models.TextField(
         max_length=300, help_text="Brief description of the presentation"
     )
-    body = RichTextField(blank=True, help_text="Full presentation description/notes")
+    body = CKEditor5Field(
+        "default", blank=True, help_text="Full presentation description/notes"
+    )
     cover_image = models.ImageField(upload_to="presentations/", blank=True, null=True)
     slides_url = models.URLField(blank=True, help_text="Link to slides")
     video_url = models.URLField(blank=True, help_text="Link to video recording")

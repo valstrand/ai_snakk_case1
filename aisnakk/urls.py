@@ -20,18 +20,51 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from core.views import PostSitemap, EventSitemap, StaticSitemap, BlogRSSFeed
+from django.http import HttpResponse
+from core.views import (
+    PostSitemap,
+    EventSitemap,
+    StaticSitemap,
+    CaseStudySitemap,
+    PresentationSitemap,
+    BlogRSSFeed,
+)
 
 # Sitemaps
 sitemaps = {
     "posts": PostSitemap,
     "events": EventSitemap,
+    "cases": CaseStudySitemap,
+    "presentations": PresentationSitemap,
     "static": StaticSitemap,
 }
 
+
+def robots_txt(request):
+    content = """User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ai-snakk.no/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /ckeditor5/
+Disallow: /static/admin/
+Disallow: /media/
+
+# Allow important pages
+Allow: /blog/
+Allow: /events/
+Allow: /about/
+Allow: /contact/"""
+    return HttpResponse(content, content_type="text/plain")
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("ckeditor/", include("ckeditor_uploader.urls")),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
+    path("robots.txt", robots_txt, name="robots_txt"),
     path(
         "sitemap.xml",
         sitemap,

@@ -41,7 +41,7 @@
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path>
                             </svg>
-                            <a href="{{ event.streaming_url }}" class="hover:text-blue-300" target="_blank">Join Online</a>
+                            <a href="{{ event.streaming_url }}" class="hover:text-blue-300" target="_blank">Bli med online</a>
                         </div>
                         {% endif %}
                     </div>
@@ -50,8 +50,8 @@
                     
                     {% if event.rsvp_url %}
                     <a href="{{ event.rsvp_url }}" target="_blank" 
-                       class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
-                        RSVP Now
+                       class="inline-flex items-center px-6 py-3 bg-ai-cyan hover:bg-ai-indigo text-white font-semibold rounded-lg transition-colors">
+                        Meld deg på nå
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                         </svg>
@@ -63,7 +63,7 @@
         
         <!-- Event Description -->
         <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-8 border border-white/20">
-            <h2 class="text-2xl font-bold text-white mb-6">About This Event</h2>
+            <h2 class="text-2xl font-bold text-white mb-6">Om dette eventet</h2>
             <div class="prose prose-invert max-w-none">
                 {{ event.description|safe }}
             </div>
@@ -72,16 +72,16 @@
         <!-- Related Presentations -->
         {% if presentations %}
         <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-            <h2 class="text-2xl font-bold text-white mb-6">Presentations</h2>
+            <h2 class="text-2xl font-bold text-white mb-6">Presentasjoner</h2>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {% for presentation in presentations %}
                 <div class="bg-white/5 rounded-xl p-6 border border-white/10">
                     <h3 class="text-lg font-semibold text-white mb-2">{{ presentation.title }}</h3>
-                    <p class="text-gray-300 text-sm mb-3">by {{ presentation.speaker }}</p>
+                    <p class="text-gray-300 text-sm mb-3">av {{ presentation.speaker }}</p>
                     <p class="text-gray-400 text-sm mb-4">{{ presentation.summary|truncatewords:20 }}</p>
                     <a href="{{ presentation.get_absolute_url }}" 
                        class="text-blue-400 hover:text-blue-300 text-sm font-medium">
-                        View Presentation →
+                        Se presentasjon →
                     </a>
                 </div>
                 {% endfor %}

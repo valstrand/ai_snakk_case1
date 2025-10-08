@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ai-snakk.no/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /ckeditor5/
+Disallow: /static/admin/
+Disallow: /media/
+
+# Allow important pages
+Allow: /blog/
+Allow: /events/
+Allow: /about/
+Allow: /contact/
+
+
